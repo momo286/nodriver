@@ -1243,7 +1243,7 @@ class Tab(Connection):
 
         :param filename: uses this as the save path
         :type filename: PathLike
-        :return: the path/filename of saved screenshot
+        :return: the path/filename of saved snapshot
         :rtype: str
         """
         # noqa
