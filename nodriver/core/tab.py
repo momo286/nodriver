@@ -1170,6 +1170,32 @@ class Tab(Connection):
             )
         )
 
+
+    async def save_snapshot(
+        self,
+        filename: Optional[PathLike] = "snapshot.mhtml",
+    ) -> str:
+        """
+        Saves a snapshot of the page.
+        :param filename: uses this as the save path
+        :type filename: PathLike
+        :return: the path/filename of saved snapshot
+        :rtype: str
+        """
+        # noqa
+
+        await self.sleep()  # update the target's url
+        path = pathlib.Path(filename)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        data = await self.send(
+            cdp.page.capture_snapshot()
+        )
+        if not path:
+            raise RuntimeError("invalid filename or path: '%s'" % filename)
+        with open(filename, 'w') as file:
+            file.write(data)
+        return str(path)
+    
     async def save_screenshot(
         self,
         filename: Optional[PathLike] = "auto",
